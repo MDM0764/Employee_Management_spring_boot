@@ -15,7 +15,7 @@
     <h4>EmployeeList</h4>
         <table id="table"></table>
         <button class="btn btn-primary" onclick="showAddForm();">Add Employee</button>
-        <form id="addForm" action="#" th:action="@{/employee}" th:employee="${employee}" method="post">
+        <form id="addForm" action="#" th:action="@{/employee}" th:employee="${employee}" method="POST">
             <input type = "Number" name ="empId" th:value="*{empId}" placeholder="empId"/>
             <input type = "text" name ="name" th:value="*{name}" placeholder="name"/>
             <input type = "Number" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo">
@@ -24,12 +24,13 @@
             <input type="submit" value="Add">
         </form>
 
-    <form id="editForm" action="#" th:employee="${employee}" method="post">
-        <input type = "text" id ="name" name ="name" th:value="*{name}" placeholder="name"/>
-        <input type = "Number" id="phoneNo" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo">
-        <input type = "email" id="email" name="email" th:value="*{email}" placeholder="email">
-        <input type = "text" id="address" name="address" th:value="*{address}" placeholder="address">
-        <input type="submit" value="Add">
+    <form id="editForm" th:employee="${employee}">
+        <input type="hidden" id="editId"/>
+        <input type = "text" id ="editName" name ="name" th:value="*{name}" placeholder="name"/>
+        <input type = "Number" id="editPhoneNo" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo">
+        <input type = "email" id="editEmail" name="email" th:value="*{email}" placeholder="email">
+        <input type = "text" id="editAddress" name="address" th:value="*{address}" placeholder="address">
+        <input type="submit" value="Save">
     </form>
 </body>
 </html>

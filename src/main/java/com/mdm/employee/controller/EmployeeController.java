@@ -5,9 +5,9 @@ import com.mdm.employee.entities.Employee;
 import com.mdm.employee.repositories.employeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -23,19 +23,20 @@ public class EmployeeController {
     }
 
     @PostMapping(value="/employee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String save(Employee employe){
-         repository.save(employe);
+    public String save(Employee employee){
+         repository.save(employee);
         return "redirect:/employee";
     }
 
-    @PutMapping("/employee/{id}")
-    public Employee update(@RequestBody Employee employee, @PathVariable Integer id) {
+    @PutMapping(value = "/employee/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String update(Employee employee, @PathVariable Integer id, HttpServletResponse res) {
         Employee oldEmpData = repository.findById(id).get();
         oldEmpData.setEmail(employee.getEmail());
         oldEmpData.setAddress(employee.getAddress());
         oldEmpData.setName(employee.getName());
         oldEmpData.setPhoneNo(employee.getPhoneNo());
-        return repository.save(oldEmpData);
+        repository.save(oldEmpData);
+        return "redirect:/employee";
     }
 
     @DeleteMapping("/employees/{id}")
