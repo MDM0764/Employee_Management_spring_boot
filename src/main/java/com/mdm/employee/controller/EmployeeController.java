@@ -3,11 +3,14 @@ package com.mdm.employee.controller;
 
 import com.mdm.employee.entities.Employee;
 import com.mdm.employee.repositories.employeeRepository;
+import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,15 +26,16 @@ public class EmployeeController {
     }
 
     @PostMapping(value="/employee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String save(Employee employee){
-         repository.save(employee);
-        return "redirect:/employee";
+    public void save(Employee employee, HttpServletResponse response, HttpServletRequest req) throws IOException {
+        repository.save(employee);
+        String path = req.getRequestURL().toString();
+        response.sendRedirect(path);
     }
 
     @PutMapping(value = "/employee/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String update(Employee employee, @PathVariable Integer id, HttpServletResponse res) {
         Employee oldEmpData = repository.findById(id).get();
-        oldEmpData.setEmail(employee.getEmail());
+        oldEmpData.setEmail(employee.getEmail()); // put in service part
         oldEmpData.setAddress(employee.getAddress());
         oldEmpData.setName(employee.getName());
         oldEmpData.setPhoneNo(employee.getPhoneNo());

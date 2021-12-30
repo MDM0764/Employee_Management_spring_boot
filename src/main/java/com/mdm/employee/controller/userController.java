@@ -28,7 +28,6 @@ public class userController {
 
     @RequestMapping("/employee")
     public String showEmployees( Model modelMap) {
-        modelMap.addAttribute("","");
         return "home";
     }
 
@@ -37,31 +36,34 @@ public class userController {
         return new BCryptPasswordEncoder();
     }
 
-     @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "login", method = RequestMethod.POST)
     public String login (@RequestParam("userId") String userId, @RequestParam("password") String password, Model modelMap){
-         user user;
+        user user;
         if (isValid(userId)) {//find by email
             user = repo.findByEmail(userId);
-         } else {
+        } else {
             Long phoneNo = Long.parseLong(userId);
             user = repo.findByPhoneno(phoneNo);
-         }
-         if (user == null) {
-             modelMap.addAttribute("msg", "user does not exist, please register");
-             return "login";
-         }
+        }
+        if (user == null) {
+            modelMap.addAttribute("msg", "user does not exist, please register");
+            return "login";
+        }
         if (checkPassword(password, user.getPassword())) {
-            modelMap.addAttribute("userCode", user.getId());
             return "home";
         } else {
             modelMap.addAttribute("msg", "passswords don't match");
             return "login";
         }
 
-     }
+    }
+
+   /* public boolean checkPassword(String enteredPassword, String password) {
+        return bCryptPasswordEncoder().matches(enteredPassword, password);
+    }*/
 
     public boolean checkPassword(String enteredPassword, String password) {
-        return bCryptPasswordEncoder().matches(enteredPassword, password);
+        return enteredPassword.equals(password);
     }
 
     public static boolean isValid(String email)

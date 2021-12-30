@@ -7,30 +7,64 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet"  th:href="@{css/style1.css}"/>
+    <link rel="stylesheet"  th:href="@{css/employee.css}"/>
     <script th:src="@{js/employee.js}"></script>
 </head>
 
 <body>
-    <h4>EmployeeList</h4>
-        <table id="table"></table>
-        <button class="btn btn-primary" onclick="showAddForm();">Add Employee</button>
-        <form id="addForm" action="#" th:action="@{/employee}" th:employee="${employee}" method="POST">
-            <input type = "Number" name ="empId" th:value="*{empId}" placeholder="empId"/>
-            <input type = "text" name ="name" th:value="*{name}" placeholder="name"/>
-            <input type = "Number" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo">
-            <input type = "email" name="email" th:value="*{email}" placeholder="email">
-            <input type = "text" name="address" th:value="*{address}" placeholder="address">
-            <input type="submit" value="Add">
-        </form>
+<div class="container h-100 d-flex justify-content-center"  style ="margin-top:5%;">
+    <div class="row">
+        <div class="col">
+            <div class="row"> <h4 style ="margin-left:2%;">EmployeeList</h4> <button style ="margin-left:25%;"class="btn btn-primary" onclick="showAddForm();">Add Employee</button></div>
 
-    <form id="editForm" th:employee="${employee}">
-        <input type="hidden" id="editId"/>
-        <input type = "text" id ="editName" name ="name" th:value="*{name}" placeholder="name"/>
-        <input type = "Number" id="editPhoneNo" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo">
-        <input type = "email" id="editEmail" name="email" th:value="*{email}" placeholder="email">
-        <input type = "text" id="editAddress" name="address" th:value="*{address}" placeholder="address">
-        <input type="submit" value="Save">
-    </form>
+            <table id="table" class="table table-borderless table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Phone No</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Address</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="container h-80 d-flex justify-content-center">
+    <div id="addForm" style = "display:none;" class="form-group">
+        <div class="d-flex">
+            <div class="row">
+                <form class="table" action="#" th:action="@{/employee}" th:employee="${employee}" method="POST">
+                    <div class="d-inline-block">  <input  style ="width:100px;" type = "Number" class="form-control" name ="empId" th:value="*{empId}" placeholder="empId"/> </div>
+                    <div class="d-inline-block">  <input type = "text" class="form-control" name ="name" th:value="*{name}" placeholder="name"/></div>
+                    <div class="d-inline-block">  <input type = "Number" class="form-control" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo"></div>
+                    <div class="d-inline-block"> <input type = "email" class="form-control" name="email" th:value="*{email}" placeholder="email"></div>
+                    <div class="d-inline-block"> <input type = "text" class="form-control" name="address" th:value="*{address}" placeholder="address"></div>
+                    <div class="d-inline-block"> <input class = "btn btn-info" type="submit" value="Add"></div>
+                    <div class="d-inline-block"> <button class="btn btn-danger" type="button" onclick="cancel();">Cancel</button> </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container h-80 d-flex justify-content-center">
+    <div id="editForm" style = "display:none;" class="form-group">
+        <div class="d-flex">
+            <div class="row">
+                <form th:employee="${employee}">
+                    <div class="d-inline-block"><input style ="width:100px;" id="editId" readonly/></div>
+                    <div class="d-inline-block"><input type = "text" class="form-control" id ="editName" name ="name" th:value="*{name}" placeholder="name"/></div>
+                    <div class="d-inline-block"><input type = "Number" class="form-control" id="editPhoneNo" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo"></div>
+                    <div class="d-inline-block"><input type = "email" class="form-control" id="editEmail" name="email" th:value="*{email}" placeholder="email"></div>
+                    <div class="d-inline-block"><input type = "text" class="form-control" id="editAddress" name="address" th:value="*{address}" placeholder="address"></div>
+                    <div class="d-inline-block"><input class = "btn btn-info" type="submit" value="Save"></div>
+                    <button class="btn btn-danger" type="button" onclick="cancel();">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
