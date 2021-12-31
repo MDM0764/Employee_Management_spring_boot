@@ -18,7 +18,7 @@ $(document).ready(function () {
 
 function cancel() {
     $("#addForm").css("display", "none");
-    $("#editForm").css("display", "none");
+    $("#editFormDiv").css("display", "none");
 }
 
 function deleteEmployee(id) {
@@ -37,7 +37,7 @@ function deleteEmployee(id) {
 }
 
 function showAddForm(){
-    $("#editForm").css("display", "none");
+    $("#editFormDiv").css("display", "none");
     $("#addForm").show();
 }
 
@@ -51,7 +51,7 @@ function editEmployee(id){
    $('#editEmail').val(td[3].outerText);
    $('#editAddress').val(td[4].outerText);
    $("#addForm").css("display", "none");
-   $("#editForm").show();
+   $("#editFormDiv").show();
 }
 
 $(function () {

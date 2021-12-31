@@ -36,7 +36,7 @@ public class userController {
         return new BCryptPasswordEncoder();
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "Login", method = RequestMethod.POST)
     public String login (@RequestParam("userId") String userId, @RequestParam("password") String password, Model modelMap){
         user user;
         if (isValid(userId)) {//find by email

@@ -50,10 +50,10 @@
     </div>
 </div>
 <div class="container h-80 d-flex justify-content-center">
-    <div id="editForm" style = "display:none;" class="form-group">
+    <div id="editFormDiv" style = "display:none;">
         <div class="d-flex">
             <div class="row">
-                <form th:employee="${employee}">
+                <form id="editForm" th:employee="${employee}" class="form-group">
                     <div class="d-inline-block"><input style ="width:100px;" id="editId" readonly/></div>
                     <div class="d-inline-block"><input type = "text" class="form-control" id ="editName" name ="name" th:value="*{name}" placeholder="name"/></div>
                     <div class="d-inline-block"><input type = "Number" class="form-control" id="editPhoneNo" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo"></div>
