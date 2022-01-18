@@ -37,7 +37,7 @@
         <div class="d-flex">
             <div class="row">
                 <form class="table" action="#" th:action="@{/employee}" th:employee="${employee}" method="POST">
-                    <div class="d-inline-block">  <input  style ="width:100px;" type = "Number" class="form-control" name ="empId" th:value="*{empId}" placeholder="empId"/> </div>
+                    <div class="d-inline-block">  <input type = "hidden" class="form-control" name ="empId" th:value="0" placeholder="empId"/> </div>
                     <div class="d-inline-block">  <input type = "text" class="form-control" name ="name" th:value="*{name}" placeholder="name"/></div>
                     <div class="d-inline-block">  <input type = "Number" class="form-control" name="phoneNo" pattern="[0-9]{10}" th:value="*{phoneNo}" placeholder="phoneNo"></div>
                     <div class="d-inline-block"> <input type = "email" class="form-control" name="email" th:value="*{email}" placeholder="email"></div>

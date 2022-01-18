@@ -1,6 +1,57 @@
 $(document).ready(function () {
     $.get("http://localhost:8080/api/employees", function (data) {
-        var empTable = '';
+        createTable(data.content);
+        createPagaDetails(data);
+       });
+});
+
+function getPage(PageNo){
+    $("#table").empty();
+    $.get("http://localhost:8080/api/employees?pageNo=" +PageNo , function (data) {
+        createTable(data.content);
+        createPagaDetails(data);
+       });
+
+}
+
+function cancel() {
+    $("#addForm").css("display", "none");
+    $("#editFormDiv").css("display", "none");
+}
+
+function createPagaDetails(data) {
+    var tabFooter = '';
+    var pgNo = data.pageable.pageNumber;
+    pgNo += 1;
+    tabFooter += '<tfoot><tr>';
+    tabFooter += '<td> PageNo : ' + +1 + '</td>'
+    for (let j = 0; j < 4; j++){
+         tabFooter += '<td></td>';
+    }
+     tabFooter += '<td colspan = "2">';
+
+     if (pgNo > 2) {
+      tabFooter += '...';
+     }
+    let min = pgNo-1;
+    let max = pgNo+2;
+
+        for(let i = min; i <= max; i++){
+            if ( i === pgNo) {
+            tabFooter += '<div class="btn btn-secondary" onclick="getPage('+k+')";>' + i +'</div>';
+            } else {
+            tabFooter += '<div class="btn btn-light" onclick="getPage('+k+')";>' + i +'</div>';
+            }
+        }
+        if ((data.totalPages -pgNo ) > 2) {
+             tabFooter += '...';
+             }
+         tabFooter += '</tr></tfoot>';
+         $("#table").append(tabFooter);
+}
+
+function createTable (data) {
+ var empTable = '';
         $.each(data, function (key, value) {
             empTable += '<tr id="emp'+ value.empId + '">';
             empTable += '<td scope="row">' + value.empId + '</td>';
@@ -13,12 +64,7 @@ $(document).ready(function () {
             empTable += '</tr>';
         });
          $("#table").append(empTable);
-    });
-});
 
-function cancel() {
-    $("#addForm").css("display", "none");
-    $("#editFormDiv").css("display", "none");
 }
 
 function deleteEmployee(id) {

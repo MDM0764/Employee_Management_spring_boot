@@ -3,8 +3,10 @@ package com.mdm.employee.controller;
 
 import com.mdm.employee.entities.Employee;
 import com.mdm.employee.repositories.employeeRepository;
+import com.mdm.employee.service.employeeService;
 import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,10 +21,16 @@ public class EmployeeController {
     @Autowired
     private employeeRepository repository;
 
+    @Autowired
+    private employeeService service;
+
 
     @GetMapping("/employees")
-    public List<Employee> showAll() {
-        return repository.findAll();
+    public Page<Employee> showAll(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "6") Integer pageSize,
+            @RequestParam(defaultValue = "empId") String sortBy) {
+        return service.getAllEmployees(pageNo, pageSize, sortBy);
     }
 
     @PostMapping(value="/employee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
