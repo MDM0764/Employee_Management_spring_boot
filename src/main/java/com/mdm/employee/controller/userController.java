@@ -28,7 +28,7 @@ public class userController {
 
     @RequestMapping("/employee")
     public String showEmployees( Model modelMap) {
-        return "home";
+        return "index";
     }
 
     @Bean
@@ -39,20 +39,27 @@ public class userController {
     @RequestMapping(value = "Login", method = RequestMethod.POST)
     public String login (@RequestParam("userId") String userId, @RequestParam("password") String password, Model modelMap){
         user user;
-        if (isValid(userId)) {//find by email
-            user = repo.findByEmail(userId);
-        } else {
-            Long phoneNo = Long.parseLong(userId);
-            user = repo.findByPhoneno(phoneNo);
+        try {
+            if (isValid(userId)) {//find by email
+                user = repo.findByEmail(userId);
+            } else {
+                Long phoneNo = Long.parseLong(userId);
+                user = repo.findByPhoneno(phoneNo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            modelMap.addAttribute("msg", "The User does not exist");
+            return "login";
         }
+
         if (user == null) {
-            modelMap.addAttribute("msg", "user does not exist, please register");
+            modelMap.addAttribute("msg", "The User does not exist");
             return "login";
         }
         if (checkPassword(password, user.getPassword())) {
-            return "home";
+            return "index";
         } else {
-            modelMap.addAttribute("msg", "passswords don't match");
+            modelMap.addAttribute("msg", "Wrong Passoword");
             return "login";
         }
 

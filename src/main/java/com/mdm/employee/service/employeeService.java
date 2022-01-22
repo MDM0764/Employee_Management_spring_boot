@@ -19,8 +19,14 @@ public class employeeService {
     @Autowired
     private employeeRepository repository;
 
-    public Page<Employee> getAllEmployees(Integer pageNo, Integer pageSize, String sortBy) {
-        PageRequest paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+    public Page<Employee> getAllEmployees(Integer pageNo, Integer pageSize, String sortField, String sortDirection) {
+        Sort sort;
+        if (sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())){
+            sort = Sort.by(sortField).ascending();
+        } else {
+            sort = Sort.by(sortField).descending();
+        }
+        PageRequest paging = PageRequest.of(pageNo, pageSize, sort);
 
         Page<Employee> pagedResult = repository.findAll(paging);
         if(pagedResult.hasContent()) {

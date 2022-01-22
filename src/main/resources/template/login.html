@@ -12,12 +12,12 @@
 <title>Login</title>
 </head>
 <script>
-    $(document).ready(function () {
-        debugger;
-        var msg = JSON.parse('${msg}');
-        debugger;
+$(document).ready(function () {
+    var msg = "[[${msg}]]";
+    if (msg !== "") {
         alert(msg);
-    });
+    }
+});
 </script>
 <body>
 
@@ -30,7 +30,7 @@
 
                         <div class="md-5 md-4">
 
-                            <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                            <h2 class="fw-bold mb-2">Login</h2>
                             <p class="text-white-50 mb-5">Please enter your Email/phoneNo and password!</p>
                             <form action="Login" method="post">
 

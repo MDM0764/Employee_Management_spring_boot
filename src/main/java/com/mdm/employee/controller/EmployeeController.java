@@ -28,9 +28,10 @@ public class EmployeeController {
     @GetMapping("/employees")
     public Page<Employee> showAll(
             @RequestParam(defaultValue = "0") Integer pageNo,
-            @RequestParam(defaultValue = "6") Integer pageSize,
-            @RequestParam(defaultValue = "empId") String sortBy) {
-        return service.getAllEmployees(pageNo, pageSize, sortBy);
+            @RequestParam(defaultValue = "5") Integer pageSize,
+            @RequestParam(defaultValue = "empId") String sortBy,
+            @RequestParam(defaultValue = "empId") String sortDirection) {
+        return service.getAllEmployees(pageNo, pageSize, sortBy, sortDirection);
     }
 
     @PostMapping(value="/employee", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
