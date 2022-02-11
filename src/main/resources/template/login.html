@@ -11,14 +11,6 @@
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <title>Login</title>
 </head>
-<script>
-$(document).ready(function () {
-    var msg = "[[${msg}]]";
-    if (msg !== "") {
-        alert(msg);
-    }
-});
-</script>
 <body>
 
 <section class="vh-100 gradient-custom">
@@ -32,11 +24,11 @@ $(document).ready(function () {
 
                             <h2 class="fw-bold mb-2">Login</h2>
                             <p class="text-white-50 mb-5">Please enter your Email/phoneNo and password!</p>
-                            <form action="Login" method="post">
+                            <form th:action="@{/home}" method="POST">
 
                             <div class="form-outline form-white mb-4">
                                 <label class="form-label" >Email/phone no:</label>
-                                <input type="text" name="userId" class="form-control form-control-lg">
+                                <input type="text" name="username" class="form-control form-control-lg">
                             </div>
 
                             <div class="form-outline form-white mb-4">

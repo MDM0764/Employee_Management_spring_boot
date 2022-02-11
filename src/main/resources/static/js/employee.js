@@ -125,9 +125,15 @@ function deleteEmployee(id) {
             console.log("success");
             location.reload();
         },
-        error: function () {
-            console.log("error");
-        }
+        error:  function(xhr, status, error) {
+                     var err = eval("(" + xhr.responseText + ")");
+                     console.log(err.Message);
+                     console.log('xhr: ');
+                     console.log(xhr);
+                     console.log('status: ' + status);
+                     console.log('error: ' + error);
+                   }
+
     });
 }
 
@@ -162,7 +168,15 @@ $(function () {
             success: function(data)
             {
                 location.reload();
-            }
+            },
+            error :  function(xhr, status, error) {
+                          var err = eval("(" + xhr.responseText + ")");
+                          console.log(err.Message);
+                          console.log('xhr: ');
+                          console.log(xhr);
+                          console.log('status: ' + status);
+                          console.log('error: ' + error);
+                        }
         });
     });
 });
