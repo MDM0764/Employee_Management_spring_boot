@@ -4,12 +4,20 @@ import com.mdm.employee.entities.user;
 import com.mdm.employee.repositories.userRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpRequest;
 import java.util.regex.Pattern;
 
 @Controller
@@ -22,6 +30,7 @@ public class userController {
     public String showLogin() {
         return "login";
     }
+
     @RequestMapping(value = "/home", method = RequestMethod.POST)
     public String home(){
         return "index";

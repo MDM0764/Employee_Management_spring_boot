@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,11 +28,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user").password("{noop}p@1").roles("USER")
-                .and()
-                .withUser("admin").password("{noop}p@2").roles("USER", "ADMIN");
-        System.out.println("");
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("SELECT email,password, 'true' as enabled from user where email=?")
+                .authoritiesByUsernameQuery("SELECT email,role, 'true' as enabled from user where email=?");
     }
 
     @Bean
@@ -41,19 +41,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .and().formLogin().loginPage("/login").successForwardUrl("/home")
-                .defaultSuccessUrl("/home")
-                .loginProcessingUrl("/home")
+                .and().formLogin().loginPage("/login")
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                         response.sendRedirect(request.getContextPath() + "/home");
                     }
-                });
-        /* http.httpBasic().and().authorizeRequests()
-                .and()
-                .formLogin().loginPage("/login")
-                */
+                })
+        .and().logout()
+        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+        .logoutSuccessUrl("/login").permitAll()
+        ;
+
     }
 
 }
