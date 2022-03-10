@@ -9,7 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.print.Pageable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +32,55 @@ public class employeeService {
         PageRequest paging = PageRequest.of(pageNo, pageSize, sort);
 
         Page<Employee> pagedResult = repository.findAll(paging);
-        if(pagedResult.hasContent()) {
+        if (pagedResult.hasContent()) {
             return pagedResult;
         } else {
             return null;
         }
     }
+
+    public void saveEmployee(Employee employee, HttpServletRequest req, HttpServletResponse res) throws IOException {
+        try {
+            repository.save(employee);
+            String path = req.getRequestURL().toString();
+            res.sendRedirect(path);
+        } catch (Exception e) {
+            System.out.println("Error occurred while deleting ");
+            System.out.println(e.getStackTrace());
+            String path = req.getRequestURL().toString();
+            res.sendRedirect(path + "/error");
+        }
+    }
+
+    public String updateEmployee(Employee employee,Integer id) {
+        try {
+            Employee oldEmpData = repository.findById(id).get();
+            oldEmpData.setEmail(employee.getEmail()); // put in service part
+            oldEmpData.setAddress(employee.getAddress());
+            oldEmpData.setName(employee.getName());
+            oldEmpData.setPhoneNo(employee.getPhoneNo());
+            repository.save(oldEmpData);
+            return "redirect:/employee";
+        }  catch (Exception e) {
+            System.out.println("Error occurred while updating ");
+            System.out.println(e.getStackTrace());
+            return "redirect:/error";
+        }
+
+    }
+
+    public void deleteEmployee(Integer id) {
+        try {
+            repository.deleteById(id);
+        } catch (Exception e) {
+            System.out.println("Error occurred while deleting ");
+            System.out.println(e.getStackTrace());
+        }
+
+    }
+
+    public void setRepository(employeeRepository repository) {
+        this.repository = repository;
+    }
+
 }

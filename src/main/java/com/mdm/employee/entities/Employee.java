@@ -1,6 +1,5 @@
 package com.mdm.employee.entities;
 
-
 import javax.persistence.*;
 
 @Entity
